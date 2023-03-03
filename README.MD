@@ -56,3 +56,34 @@ export HYPOLAS_HEALTHCHECK_HTTP_EXPECTED=up
 ```
 
 Le service index 1 étant `httpd`, le résultat sera un Exit(1).
+
+# Fonction avancée
+
+## Description
+
+Vous pouvez passé des commandes dans vos variable d'environnement. Par exemple dans Docker, un check sur un host static n'a que peut de sens. L'adresse IP et le hostname de votre conainer Docker pouvant changer régulièrement.
+
+Cette problématique est résolu ici en donnant la possibilité d'apeller des commandes externes. Par exemple, IP de l'host (ou du Docker) est très utile pour un healthcheck locale. La commande `hostname -i` permet de récupérer l'IP alors que les variables d'environnements sont statiques.
+
+Tous les valeurs entre les balises `#CMDSTART#` et `#CMDEND#` seront lancé dans le shell de votre système. Le retour de votre terminal de votre commande mettra a jour votre variable d'environnement. Exemple:
+
+- export HYPOLAS_HEALTHCHECK_HTTP_URL=http://#CMDSTART# hostname -i #CMDEND#:8082/ping
+
+Engendra l'execution par votre système de `hostname -i`. Votre terminal lui répondra par exemple 10.10.10.20. La variable d'environnement sera au final:
+
+- export HYPOLAS_HEALTHCHECK_HTTP_URL=http://10.10.10.20:8082/ping
+
+## Exemple avec Docker (Traefik)
+
+```Dockerfile
+FROM traefik:v2.9.8
+
+ADD https://github.com/hypolas/healthcheck/releases/download/v0.2.0/healthcheck_hpl-linux-amd64 /usr/bin/healthcheck
+RUN chmod +x /usr/bin/healthcheck
+
+ENV HYPOLAS_HEALTHCHECK_TYPE=http
+ENV HYPOLAS_HEALTHCHECK_HTTP_EXPECTED=OK
+ENV HYPOLAS_HEALTHCHECK_HTTP_URL="http://#CMDSTART# hostname -i #CMDEND#:8082/ping"
+
+HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck
+```
