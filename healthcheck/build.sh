@@ -1,2 +1,2 @@
-GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "-w -h -H windowsgui -extldflags=-static" -o bin/healthcheck_hpl-amd64.exe .
-GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-w -h -extldflags=-static" -o bin/healthcheck_hpl-amd64 .
+GOOS=windows GOARCH=amd64 go build -trimpath -ldflags "-w -h -H windowsgui -extldflags=-static" -o bin/healthcheck_hpl-win-amd64.exe .
+GOOS=linux GOARCH=amd64 go build -trimpath -ldflags "-w -h -extldflags=-static" -o bin/healthcheck_hpl-linux-amd64 .
