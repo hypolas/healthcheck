@@ -38,7 +38,7 @@ var (
 
 	returnedValue string
 	separator     = "__"
-	isJsonEntry   = true
+	isJSONEntry   = true
 
 	err error
 )
