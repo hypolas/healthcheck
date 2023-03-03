@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 export HYPOLAS_HEALTHCHECK_HTTP_EXPECTED=down
 export HYPOLAS_HEALTHCHECK_HTTP_PROXY=
 export HYPOLAS_HEALTHCHECK_HTTP_URL=https://httpbin.org/get

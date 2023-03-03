@@ -13,8 +13,8 @@ import (
 *
  */
 
-func taskJson(testJson []byte) {
-	jsonPathDecomposer(healthcheckHttpJsonPath, testJson)
+func taskJSON(testJSON []byte) {
+	jsonPathDecomposer(healthcheckHTTPJsonPath, testJSON)
 }
 
 /*
@@ -25,7 +25,7 @@ func taskJson(testJson []byte) {
 func jsonPathDecomposer(jpath string, jsonFile []byte) {
 	arrayPath := splitFlatten(jpath)
 	lenPath := len(arrayPath)
-	var skipThis int = 99999
+	var skipThis = 99999
 	for i, jp := range arrayPath {
 		if skipThis == i {
 			continue
@@ -44,7 +44,7 @@ func jsonPathDecomposer(jpath string, jsonFile []byte) {
 	returnedValue = strings.Trim(string(jsonFile), "\"")
 }
 
-func jsonDecomposer(jsonFormat JsonKey, jsonFile []byte) []byte {
+func jsonDecomposer(jsonFormat JSONKey, jsonFile []byte) []byte {
 	var inner interface{}
 
 	if jsonFormat.Name == "" {
@@ -70,8 +70,8 @@ func jsonDecomposer(jsonFormat JsonKey, jsonFile []byte) []byte {
 	return jsonInner
 }
 
-func keyTypeDecomposer(key string, index int, haveNext bool, arrayPath []string) JsonKey {
-	tmpKey := JsonKey{}
+func keyTypeDecomposer(key string, index int, haveNext bool, arrayPath []string) JSONKey {
+	tmpKey := JSONKey{}
 	if haveNext {
 		if ind, err := strconv.Atoi(arrayPath[index+1]); err == nil {
 			tmpKey.KeyIsArray = true

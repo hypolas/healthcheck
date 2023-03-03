@@ -51,7 +51,7 @@ func resolveCMD(cmdString string) string {
 
 	/*
 	*	Remove all unwanted characters
-	 */
+	*/
 	cmdResult := strings.TrimFunc(stdout.String(), func(r rune) bool {
 		return !unicode.IsGraphic(r)
 	})
@@ -65,7 +65,7 @@ func resolveCMD(cmdString string) string {
 
 /*
 *	Extract command from environnement variables
- */
+*/
 func getStringInBetween(str string, start string, end string) (result string) {
 	s := strings.Index(str, start)
 	if s == -1 {

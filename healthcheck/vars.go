@@ -13,28 +13,28 @@ var (
 	healthcheckType string
 
 	// Expected http value
-	healthcheckHttpExpected string
+	healthcheckHTTPExpected string
 
 	// JsonPath Flatter with double _
-	healthcheckHttpJsonPath string
+	healthcheckHTTPJsonPath string
 
 	// URL to check
-	healthcheckHttpUrl string
+	healthcheckHTTPUrl string
 
 	// Proxy if needed
-	healthcheckHttpProxy string
+	healthcheckHTTPProxy string
 
 	// Add header if needed
-	healthcheckHttpHeaders string
+	healthcheckHTTPHeaders string
 
 	// Use return code ?
-	healthcheckHttpUseCode bool
+	healthcheckHTTPUseCode bool
 
 	// Define HTTP Timeout
-	healthcheckHttpTimeout time.Duration
+	healthcheckHTTPTimeout time.Duration
 
 	// Check HTTP Status Code
-	healthcheckHttpResponse []int
+	healthcheckHTTPResponse []int
 
 	returnedValue string
 	separator     = "__"
@@ -43,7 +43,7 @@ var (
 	err error
 )
 
-type JsonKey struct {
+type JSONKey struct {
 	Name       string
 	KeyIsArray bool
 	ArrayIndex int

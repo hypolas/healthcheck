@@ -10,16 +10,16 @@ import (
 	"time"
 )
 
-func getHttp() {
+func getHTTP() {
 	clientHTTP := constructHttpClient()
 	prinfDebug(clientHTTP, "clientHTTP")
 
-	reqHTTP, err := http.NewRequest("GET", healthcheckHttpUrl, nil)
+	reqHTTP, err := http.NewRequest("GET", healthcheckHTTPUrl, nil)
 	prinfDebug(reqHTTP, "reqHTTP")
 	printErr(err)
 	reqHTTP.Header.Add("Accept", `application/json`)
 
-	additionnalHeaders := splitFlatten(healthcheckHttpHeaders)
+	additionnalHeaders := splitFlatten(healthcheckHTTPHeaders)
 	for _, header := range additionnalHeaders {
 		splitedHeader := strings.Split(header, ",")
 		reqHTTP.Header.Add(splitedHeader[0], splitedHeader[1])
@@ -39,9 +39,9 @@ func getHttp() {
 	/*
 	*	If chek is on status html code the test stop here
 	 */
-	prinfDebug(healthcheckHttpUseCode, "healthcheckHttpUseCode")
-	if healthcheckHttpUseCode {
-		if intIsIn(resp.StatusCode, healthcheckHttpResponse) {
+	prinfDebug(healthcheckHTTPUseCode, "healthcheckHttpUseCode")
+	if healthcheckHTTPUseCode {
+		if intIsIn(resp.StatusCode, healthcheckHTTPResponse) {
 			os.Exit(0)
 		} else {
 			os.Exit(1)
@@ -51,10 +51,10 @@ func getHttp() {
 	/*
 	*	If chek is on REST API, the json will be tested
 	 */
-	prinfDebug(healthcheckHttpJsonPath, "healthcheckHttpJsonPath")
-	if healthcheckHttpJsonPath != "" {
+	prinfDebug(healthcheckHTTPJsonPath, "healthcheckHttpJsonPath")
+	if healthcheckHTTPJsonPath != "" {
 		log.Println("taskJson")
-		taskJson(bodyHTTP)
+		taskJSON(bodyHTTP)
 	} else {
 		returnedValue = strings.Trim(string(bodyHTTP), "\"")
 	}
@@ -69,16 +69,16 @@ func constructHttpClient() *http.Client {
 		Timeout:   0,
 	}
 
-	if healthcheckHttpProxy != "" {
-		proxyUrl, err := url.Parse(healthcheckHttpProxy)
+	if healthcheckHTTPProxy != "" {
+		proxyURL, err := url.Parse(healthcheckHTTPProxy)
 		printErr(err)
 		client.Transport = &http.Transport{
-			Proxy: http.ProxyURL(proxyUrl),
+			Proxy: http.ProxyURL(proxyURL),
 		}
 	}
 
-	if healthcheckHttpTimeout != 0 {
-		client.Timeout = healthcheckHttpTimeout * time.Second
+	if healthcheckHTTPTimeout != 0 {
+		client.Timeout = healthcheckHTTPTimeout * time.Second
 	}
 
 	return client

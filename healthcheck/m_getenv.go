@@ -16,22 +16,22 @@ func taskLoadEnvironnement() {
 	/*
 	*	Http check variable
 	 */
-	healthcheckHttpExpected = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_EXPECTED", ""))
-	healthcheckHttpJsonPath = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_JSON", ""))
-	healthcheckHttpUrl = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_URL", ""))
-	healthcheckHttpProxy = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_PROXY", ""))
-	healthcheckHttpHeaders = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_HEADERS", ""))
+	healthcheckHTTPExpected = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_EXPECTED", ""))
+	healthcheckHTTPJsonPath = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_JSON", ""))
+	healthcheckHTTPUrl = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_URL", ""))
+	healthcheckHTTPProxy = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_PROXY", ""))
+	healthcheckHTTPHeaders = resolveVariable(getEnv("HYPOLAS_HEALTHCHECK_HTTP_HEADERS", ""))
 
-	healthcheckHttpTimeout, err = time.ParseDuration(getEnv("HYPOLAS_HEALTHCHECK_HTTP_TIMEOUT", "0") + "s")
+	healthcheckHTTPTimeout, err = time.ParseDuration(getEnv("HYPOLAS_HEALTHCHECK_HTTP_TIMEOUT", "0") + "s")
 	printErr(err)
 
 	statusCode := strings.Split(getEnv("HYPOLAS_HEALTHCHECK_HTTP_RESPONSES", ""), ",")
 	if statusCode[0] != "" {
-		healthcheckHttpUseCode = true
+		healthcheckHTTPUseCode = true
 		for _, status := range statusCode {
 			code, err := strconv.Atoi(status)
 			printErr(err)
-			healthcheckHttpResponse = append(healthcheckHttpResponse, code)
+			healthcheckHTTPResponse = append(healthcheckHTTPResponse, code)
 		}
 	}
 }
