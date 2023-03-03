@@ -1,4 +1,4 @@
-# Description
+# Description from DevOps for DevOps :D
 
 Ce binaire permet de vérifier le status d'un service:
 
@@ -63,9 +63,9 @@ Le service index 1 étant `httpd`, le résultat sera un Exit(1).
 
 Vous pouvez passé des commandes dans vos variable d'environnement. Par exemple dans Docker, un check sur un host static n'a que peut de sens. L'adresse IP et le hostname de votre conainer Docker pouvant changer régulièrement.
 
-Cette problématique est résolu ici en donnant la possibilité d'apeller des commandes externes. Par exemple, IP de l'host (ou du Docker) est très utile pour un healthcheck locale. La commande `hostname -i` permet de récupérer l'IP alors que les variables d'environnements sont statiques.
+Cette problématique est résolue ici en donnant la possibilité d'appeler des commandes externes. Par exemple, l'IP de l'hôte (ou du Docker) est très utile pour un healthcheck locale. La commande `hostname -i` permet de récupérer l'IP alors que les variables d'environnements sont statiques.
 
-Tous les valeurs entre les balises `#CMDSTART#` et `#CMDEND#` seront lancé dans le shell de votre système. Le retour de votre terminal de votre commande mettra a jour votre variable d'environnement. Exemple:
+Toutes les valeurs entre les balises `#CMDSTART#` et `#CMDEND#` seront lancées dans le shell de votre système. Le retour de votre commande dans le terminal mettra à jour votre variable d'environnement. Exemple:
 
 - export HYPOLAS_HEALTHCHECK_HTTP_URL=http://#CMDSTART# hostname -i #CMDEND#:8082/ping
 
@@ -87,3 +87,13 @@ ENV HYPOLAS_HEALTHCHECK_HTTP_URL="http://#CMDSTART# hostname -i #CMDEND#:8082/pi
 
 HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck
 ```
+
+# Debug
+
+Si vous constatez des dysfonctionnements, vous pouvez lancer en mode `debug`.
+
+```bash
+healthcheck -d
+```
+
+Si vous me faites une issue, ce log me sera grandement utile ;-).
