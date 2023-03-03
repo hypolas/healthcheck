@@ -47,9 +47,10 @@ Prenons cette réponse de l'API:
 
 HYPOLAS_HEALCHECK_HTTP_JSON est de type string flat avec comme séparateur un double "\_".
 
-Je veux vérifier que la réponse du service "httpd" est "up". Pour cela je vais exporter 2 variables d'environnement:
+Je veux vérifier que la réponse du service "httpd" est "up". Pour cela je vais exporter 3 variables d'environnement:
 
 ```bash
+export HYPOLAS_HEALCHECK_TYPE=http
 export HYPOLAS_HEALCHECK_HTTP_JSON=services__1__status
 export HYPOLAS_HEALCHECK_HTTP_EXPECTED=up
 ```
