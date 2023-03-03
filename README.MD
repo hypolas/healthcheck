@@ -53,3 +53,5 @@ Je veux vérifier que la réponse du service "httpd" est "up". Pour cela je vais
 export HYPOLAS_HEALCHECK_HTTP_JSON=services__1__status
 export HYPOLAS_HEALCHECK_HTTP_EXPECTED=up
 ```
+
+Le service index 1 étant `httpd`, le résultat sera un Exit(1).
