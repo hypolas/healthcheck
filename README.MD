@@ -25,7 +25,7 @@ Utilise les variables d'environnement:
 
 ## Exemple
 
-Les API au format REST (json) sont prisent en compte. Vous pouvez allez chercher la valeur d'une client en profondeur.
+Les API au format REST (json) sont prisent en compte. Vous pouvez allez chercher la valeur d'une réponse en profondeur.
 
 Prenons cette réponse de l'API:
 
