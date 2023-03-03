@@ -7,6 +7,9 @@ import (
 	"time"
 )
 
+/*
+*	Get entry environnement variables and parse it
+ */
 func taskLoadEnvironnement() {
 	healthcheckType = os.Getenv("HYPOLAS_HEALTHCHECK_TYPE")
 

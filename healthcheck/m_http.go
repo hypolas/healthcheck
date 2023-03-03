@@ -36,6 +36,9 @@ func getHttp() {
 	prinfDebug(bodyHTTP, "bodyHTTP")
 	printErr(err)
 
+	/*
+	*	If chek is on status html code the test stop here
+	 */
 	prinfDebug(healthcheckHttpUseCode, "healthcheckHttpUseCode")
 	if healthcheckHttpUseCode {
 		if intIsIn(resp.StatusCode, healthcheckHttpResponse) {
@@ -45,6 +48,9 @@ func getHttp() {
 		}
 	}
 
+	/*
+	*	If chek is on REST API, the json will be tested
+	 */
 	prinfDebug(healthcheckHttpJsonPath, "healthcheckHttpJsonPath")
 	if healthcheckHttpJsonPath != "" {
 		log.Println("taskJson")
@@ -54,6 +60,9 @@ func getHttp() {
 	}
 }
 
+/*
+*	Construct client HTTP
+ */
 func constructHttpClient() *http.Client {
 	client := &http.Client{
 		Transport: &http.Transport{},

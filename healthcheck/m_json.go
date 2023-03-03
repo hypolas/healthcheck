@@ -17,6 +17,11 @@ func taskJson(testJson []byte) {
 	jsonPathDecomposer(healthcheckHttpJsonPath, testJson)
 }
 
+/*
+*
+*	Read flatten key
+*
+ */
 func jsonPathDecomposer(jpath string, jsonFile []byte) {
 	arrayPath := splitFlatten(jpath)
 	lenPath := len(arrayPath)

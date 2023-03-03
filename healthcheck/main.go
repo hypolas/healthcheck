@@ -40,6 +40,9 @@ func splitFlatten(flatten string) []string {
 	return strings.Split(flatten, separator)
 }
 
+/*
+* 	Print debug if enabled
+ */
 func prinfDebug(info interface{}, name string) {
 	if debugEnable {
 		log.Println(strings.Repeat("#", 20))
