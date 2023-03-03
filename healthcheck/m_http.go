@@ -16,7 +16,8 @@ func getHttp() {
 	req, _ := http.NewRequest("GET", healcheckHttpUrl, nil)
 	req.Header.Add("Accept", `application/json`)
 
-	for _, header := range splitFlatten(healcheckHttpHeaders) {
+	additionnalHeaders := splitFlatten(healcheckHttpHeaders)
+	for _, header := range additionnalHeaders {
 		splitedHeader := strings.Split(header, ",")
 		req.Header.Add(splitedHeader[0], splitedHeader[1])
 	}

@@ -25,5 +25,9 @@ func main() {
 }
 
 func splitFlatten(flatten string) []string {
+	flatten = strings.TrimSpace(flatten)
+	if !strings.Contains(flatten, separator) {
+		return []string{}
+	}
 	return strings.Split(flatten, separator)
 }
