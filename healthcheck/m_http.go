@@ -11,7 +11,7 @@ import (
 )
 
 func getHTTP() {
-	clientHTTP := constructHttpClient()
+	clientHTTP := constructHTTPClient()
 	prinfDebug(clientHTTP, "clientHTTP")
 
 	reqHTTP, err := http.NewRequest("GET", healthcheckHTTPUrl, nil)
@@ -63,7 +63,7 @@ func getHTTP() {
 /*
 *	Construct client HTTP
  */
-func constructHttpClient() *http.Client {
+func constructHTTPClient() *http.Client {
 	client := &http.Client{
 		Transport: &http.Transport{},
 		Timeout:   0,
