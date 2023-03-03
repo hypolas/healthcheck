@@ -20,12 +20,12 @@ func main() {
 
 	switch healthcheckType {
 	case "http":
-		getHttp()
+		getHTTP()
 	}
 
 	prinfDebug(returnedValue, "returnedValue")
-	prinfDebug(healthcheckHttpExpected, "healthcheckHttpExpected")
-	if returnedValue == healthcheckHttpExpected {
+	prinfDebug(healthcheckHTTPExpected, "healthcheckHttpExpected")
+	if returnedValue == healthcheckHTTPExpected {
 		log.Println("OK")
 	} else {
 		os.Exit(1)
@@ -40,6 +40,9 @@ func splitFlatten(flatten string) []string {
 	return strings.Split(flatten, separator)
 }
 
+/*
+* 	Print debug if enabled
+ */
 func prinfDebug(info interface{}, name string) {
 	if debugEnable {
 		log.Println(strings.Repeat("#", 20))

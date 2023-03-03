@@ -9,6 +9,9 @@ import (
 	"unicode"
 )
 
+/*
+*	Format environnement variables
+ */
 func resolveVariable(strVar string) string {
 	if strings.Contains(strVar, "#CMDSTART#") {
 		strVar = resolveCMD(strVar)
@@ -19,6 +22,9 @@ func resolveVariable(strVar string) string {
 	return outStr
 }
 
+/*
+*	Run cmd embeded in environnement variable and run it
+ */
 func resolveCMD(cmdString string) string {
 	inputString := strings.TrimSpace(cmdString)
 	strCommand := getStringInBetween(inputString, "#CMDSTART#", "#CMDEND#")
@@ -43,6 +49,9 @@ func resolveCMD(cmdString string) string {
 		log.Fatalf("cmd.Run() failed with %s\n", err)
 	}
 
+	/*
+	*	Remove all unwanted characters
+	*/
 	cmdResult := strings.TrimFunc(stdout.String(), func(r rune) bool {
 		return !unicode.IsGraphic(r)
 	})
@@ -54,6 +63,9 @@ func resolveCMD(cmdString string) string {
 	return detectedCMDValue
 }
 
+/*
+*	Extract command from environnement variables
+*/
 func getStringInBetween(str string, start string, end string) (result string) {
 	s := strings.Index(str, start)
 	if s == -1 {
