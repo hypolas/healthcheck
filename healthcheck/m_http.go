@@ -11,35 +11,46 @@ import (
 )
 
 func getHttp() {
-	client := constructHttpClient()
+	clientHTTP := constructHttpClient()
+	prinfDebug(clientHTTP, "clientHTTP")
 
-	req, _ := http.NewRequest("GET", healcheckHttpUrl, nil)
-	req.Header.Add("Accept", `application/json`)
+	reqHTTP, err := http.NewRequest("GET", healthcheckHttpUrl, nil)
+	prinfDebug(reqHTTP, "reqHTTP")
+	printErr(err)
+	reqHTTP.Header.Add("Accept", `application/json`)
 
-	additionnalHeaders := splitFlatten(healcheckHttpHeaders)
+	additionnalHeaders := splitFlatten(healthcheckHttpHeaders)
 	for _, header := range additionnalHeaders {
 		splitedHeader := strings.Split(header, ",")
-		req.Header.Add(splitedHeader[0], splitedHeader[1])
+		reqHTTP.Header.Add(splitedHeader[0], splitedHeader[1])
 	}
 
-	resp, err := client.Do(req)
+	resp, err := clientHTTP.Do(reqHTTP)
 
 	if err != nil {
 		log.Fatalf("error %s\n", err)
 	}
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
 
-	if intIsIn(resp.StatusCode, healcheckHttpResponse) {
-		os.Exit(0)
-	} else {
-		os.Exit(1)
+	bodyHTTP, err := ioutil.ReadAll(resp.Body)
+	prinfDebug(bodyHTTP, "bodyHTTP")
+	printErr(err)
+
+	prinfDebug(healthcheckHttpUseCode, "healthcheckHttpUseCode")
+	if healthcheckHttpUseCode {
+		if intIsIn(resp.StatusCode, healthcheckHttpResponse) {
+			os.Exit(0)
+		} else {
+			os.Exit(1)
+		}
 	}
-	log.Println(resp.StatusCode)
 
-	if healcheckHttpJsonPath != "" {
+	prinfDebug(healthcheckHttpJsonPath, "healthcheckHttpJsonPath")
+	if healthcheckHttpJsonPath != "" {
 		log.Println("taskJson")
-		taskJson(body)
+		taskJson(bodyHTTP)
+	} else {
+		returnedValue = strings.Trim(string(bodyHTTP), "\"")
 	}
 }
 
@@ -49,15 +60,16 @@ func constructHttpClient() *http.Client {
 		Timeout:   0,
 	}
 
-	if healcheckHttpProxy != "" {
-		proxyUrl, _ := url.Parse(healcheckHttpProxy)
+	if healthcheckHttpProxy != "" {
+		proxyUrl, err := url.Parse(healthcheckHttpProxy)
+		printErr(err)
 		client.Transport = &http.Transport{
 			Proxy: http.ProxyURL(proxyUrl),
 		}
 	}
 
-	if healcheckHttpTimeout != 0 {
-		client.Timeout = healcheckHttpTimeout * time.Second
+	if healthcheckHttpTimeout != 0 {
+		client.Timeout = healthcheckHttpTimeout * time.Second
 	}
 
 	return client
@@ -70,4 +82,11 @@ func intIsIn(i int, arrayInt []int) bool {
 		}
 	}
 	return false
+}
+
+func printErr(err error) {
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
 }

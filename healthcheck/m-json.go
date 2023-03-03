@@ -14,7 +14,7 @@ import (
  */
 
 func taskJson(testJson []byte) {
-	jsonPathDecomposer(healcheckHttpJsonPath, testJson)
+	jsonPathDecomposer(healthcheckHttpJsonPath, testJson)
 }
 
 func jsonPathDecomposer(jpath string, jsonFile []byte) {
@@ -40,7 +40,6 @@ func jsonPathDecomposer(jpath string, jsonFile []byte) {
 }
 
 func jsonDecomposer(jsonFormat JsonKey, jsonFile []byte) []byte {
-	var f []byte
 	var inner interface{}
 
 	if jsonFormat.Name == "" {
@@ -59,9 +58,11 @@ func jsonDecomposer(jsonFormat JsonKey, jsonFile []byte) []byte {
 		inner = theInterface[jsonFormat.Name]
 	}
 
-	f, _ = json.Marshal(inner)
+	jsonInner, err := json.Marshal(inner)
+	prinfDebug(jsonInner, "jsonInner")
+	printErr(err)
 
-	return f
+	return jsonInner
 }
 
 func keyTypeDecomposer(key string, index int, haveNext bool, arrayPath []string) JsonKey {
@@ -74,6 +75,8 @@ func keyTypeDecomposer(key string, index int, haveNext bool, arrayPath []string)
 	}
 
 	tmpKey.Name = key
+
+	prinfDebug(tmpKey, "tmpKey")
 
 	return tmpKey
 }

@@ -5,33 +5,42 @@ import (
 )
 
 var (
+	// Debug
+	debug       *bool
+	debugEnable bool
+
 	// Type de check (http, tcp)
-	healcheckType string
+	healthcheckType string
 
 	// Expected http value
-	healcheckHttpExpected string
+	healthcheckHttpExpected string
 
 	// JsonPath Flatter with double _
-	healcheckHttpJsonPath string
+	healthcheckHttpJsonPath string
 
 	// URL to check
-	healcheckHttpUrl string
+	healthcheckHttpUrl string
 
 	// Proxy if needed
-	healcheckHttpProxy string
+	healthcheckHttpProxy string
 
 	// Add header if needed
-	healcheckHttpHeaders string
+	healthcheckHttpHeaders string
+
+	// Use return code ?
+	healthcheckHttpUseCode bool
 
 	// Define HTTP Timeout
-	healcheckHttpTimeout time.Duration
+	healthcheckHttpTimeout time.Duration
 
 	// Check HTTP Status Code
-	healcheckHttpResponse []int
+	healthcheckHttpResponse []int
 
 	returnedValue string
 	separator     = "__"
 	isJsonEntry   = true
+
+	err error
 )
 
 type JsonKey struct {

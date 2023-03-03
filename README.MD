@@ -12,14 +12,14 @@ Cette outils peut être utilisé pour différents healthcheck. Il sort en Exit(0
 
 Utilise les variables d'environnement:
 
-- HYPOLAS_HEALCHECK_HTTP_EXPECTED=down
-- HYPOLAS_HEALCHECK_HTTP_HEADERS=firstHeader,firstValue\_\_Authorization,"Basic dGVzdDp0ZXN0MTIz"
-- HYPOLAS_HEALCHECK_HTTP_JSON=headers\_\_Accept-Encoding
-- HYPOLAS_HEALCHECK_HTTP_PROXY=http://exemple.com:8080
-- HYPOLAS_HEALCHECK_HTTP_RESPONSES=200,201
-- HYPOLAS_HEALCHECK_HTTP_TIMEOUT=5 # TimeOut in seconds
-- HYPOLAS_HEALCHECK_HTTP_URL=https://httpbin.org/get
-- HYPOLAS_HEALCHECK_TYPE=http
+- HYPOLAS_HEALTHCHECK_HTTP_EXPECTED=down
+- HYPOLAS_HEALTHCHECK_HTTP_HEADERS=firstHeader,firstValue\_\_Authorization,"Basic dGVzdDp0ZXN0MTIz"
+- HYPOLAS_HEALTHCHECK_HTTP_JSON=headers\_\_Accept-Encoding
+- HYPOLAS_HEALTHCHECK_HTTP_PROXY=http://exemple.com:8080
+- HYPOLAS_HEALTHCHECK_HTTP_RESPONSES=200,201
+- HYPOLAS_HEALTHCHECK_HTTP_TIMEOUT=5 # TimeOut in seconds
+- HYPOLAS_HEALTHCHECK_HTTP_URL=https://httpbin.org/get
+- HYPOLAS_HEALTHCHECK_TYPE=http
 
 # Particularité => Les réponses aux API
 
@@ -45,14 +45,14 @@ Prenons cette réponse de l'API:
 }
 ```
 
-HYPOLAS_HEALCHECK_HTTP_JSON est de type string flat avec comme séparateur un double "\_".
+HYPOLAS_HEALTHCHECK_HTTP_JSON est de type string flat avec comme séparateur un double "\_".
 
 Je veux vérifier que la réponse du service "httpd" est "up". Pour cela je vais exporter 3 variables d'environnement:
 
 ```bash
-export HYPOLAS_HEALCHECK_TYPE=http
-export HYPOLAS_HEALCHECK_HTTP_JSON=services__1__status
-export HYPOLAS_HEALCHECK_HTTP_EXPECTED=up
+export HYPOLAS_HEALTHCHECK_TYPE=http
+export HYPOLAS_HEALTHCHECK_HTTP_JSON=services__1__status
+export HYPOLAS_HEALTHCHECK_HTTP_EXPECTED=up
 ```
 
 Le service index 1 étant `httpd`, le résultat sera un Exit(1).
