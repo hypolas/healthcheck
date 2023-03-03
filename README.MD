@@ -6,7 +6,7 @@ Ce binaire permet de vérifier le status d'un service:
 - http => Done (Si le code de réponse HTML est attendu, cela est concidéré comme un check http)
 - tcp => Next step
 
-Cette outils peut être utilisé pour différents healthcheck. Il sort en Exit(0) si la status d'un service est valide ou Exit(1) si ce n'est pas le cas.
+Cette outil peut être utilisé pour différents healthcheck. Il sort en Exit(0) si la status d'un service est valide ou Exit(1) si ce n'est pas le cas.
 
 # Configuration
 
@@ -25,7 +25,7 @@ Utilise les variables d'environnement:
 
 ## Exemple
 
-Les API au format REST (json) sont prisent en compte. Vous pouvez allez chercher la valeur d'une réponse en profondeur.
+Les APIs au format REST (json) sont prisent en charge. Vous pouvez allez chercher la valeur d'une réponse en profondeur.
 
 Prenons cette réponse de l'API:
 
@@ -59,9 +59,9 @@ Le service index 1 étant `httpd`, le résultat sera un Exit(1).
 
 # Fonction avancée
 
-## Description
+## Variables d'environnement dynamiques
 
-Vous pouvez passé des commandes dans vos variable d'environnement. Par exemple dans Docker, un check sur un host static n'a que peut de sens. L'adresse IP et le hostname de votre conainer Docker pouvant changer régulièrement.
+Vous pouvez passer des commandes dans vos variables d'environnement. Par exemple dans Docker, un check sur un hôtes statique n'a que peu de sens. L'adresse IP et le hostname de votre container Docker pouvant changer régulièrement.
 
 Cette problématique est résolue ici en donnant la possibilité d'appeler des commandes externes. Par exemple, l'IP de l'hôte (ou du Docker) est très utile pour un healthcheck locale. La commande `hostname -i` permet de récupérer l'IP alors que les variables d'environnements sont statiques.
 
