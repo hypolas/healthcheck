@@ -12,6 +12,8 @@ import (
  */
 func taskLoadEnvironnement() {
 	healthcheckType = os.Getenv("HYPOLAS_HEALTHCHECK_TYPE")
+	healthcheckLogsFolder = getEnv("HYPOLAS_HEALTHCHECK_LOGS_FOLDER", "logs/")
+	os.Setenv("HYPOLAS_LOGS_FILE", healthcheckLogsFolder)
 
 	/*
 	*	Http check variable

@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"log"
 	"strconv"
 	"strings"
 )
@@ -48,7 +47,6 @@ func jsonDecomposer(jsonFormat JSONKey, jsonFile []byte) []byte {
 	var inner interface{}
 
 	if jsonFormat.Name == "" {
-		log.Println("output : ", string(jsonFile))
 		return jsonFile
 	}
 

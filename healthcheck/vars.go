@@ -36,6 +36,9 @@ var (
 	// Check HTTP Status Code
 	healthcheckHTTPResponse []int
 
+	// Logs folder
+	healthcheckLogsFolder string
+
 	returnedValue string
 	separator     = "__"
 	isJSONEntry   = true
