@@ -7,8 +7,7 @@ import (
 )
 
 var (
-	logf                    = logg.NewLogger("")
-	returnedValue           string
+	log                     = logg.NewLogger("")
 	healthcheckHTTPExpected string
 	healthcheckType         = os.Getenv("HYPOLAS_HEALTHCHECK_TYPE")
 )
