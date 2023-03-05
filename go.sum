@@ -1,12 +1,8 @@
-github.com/hypolas/hypolashlckhelpers v0.0.8 h1:pY8/tYc07JA5he3qX/OBsztge+ZTZ0rinTCSwMSyZAI=
-github.com/hypolas/hypolashlckhelpers v0.0.8/go.mod h1:+pjzJS97/xKxwEfj1YHGqS6XxLzj1mmKFcEka0rfSEE=
-github.com/hypolas/hypolashlckhelpers v0.0.9 h1:09Hb4Z5hKQNBwWb5aDF1zAkXmv5sinpsvXESYFfnPsE=
-github.com/hypolas/hypolashlckhelpers v0.0.9/go.mod h1:4mMBQBIiTzyooVsYPhSSlb7cSES7zIMB50HS70y/1gM=
+github.com/hypolas/hypolashlckhelpers v0.0.10 h1:k92ojHkFi7QUa72gtCQT7mdEOLvwoz3KMWVIfXTqYaU=
+github.com/hypolas/hypolashlckhelpers v0.0.10/go.mod h1:vuZaQApBibLg1phyl/5ipV5ic5xv4ylNNbL6jiDdZ74=
 github.com/hypolas/hypolashlckhttp v0.0.4 h1:XvGteK+MrLcZ/p1zeN/DCTAuCRPQ0Vwp0g+jXHCj2lA=
 github.com/hypolas/hypolashlckhttp v0.0.4/go.mod h1:r1yWqrBaaMUEIZWgsuIpOV70DFVOvqRx0J8UsczyG7o=
-github.com/hypolas/hypolaslogger v0.0.8 h1:lWKfJnrAWjgWSkBzt0M+09MCJvo+mKBeSldUr6XVuQw=
-github.com/hypolas/hypolaslogger v0.0.8/go.mod h1:9o5WwO5O6FCj4nNYpxinDByLAM63jg1xR1IFdnYc7RU=
-github.com/hypolas/hypolaslogger v0.0.9 h1:h5lVF5Tuo3bYjWpRW1YOujtCiXc8VbJHRCwpHucbSlg=
-github.com/hypolas/hypolaslogger v0.0.9/go.mod h1:9o5WwO5O6FCj4nNYpxinDByLAM63jg1xR1IFdnYc7RU=
+github.com/hypolas/hypolaslogger v0.0.10 h1:sAPxBwToCNgjAQf59ljccgLX3L0MjVjXzccL0Lgn/wQ=
+github.com/hypolas/hypolaslogger v0.0.10/go.mod h1:9o5WwO5O6FCj4nNYpxinDByLAM63jg1xR1IFdnYc7RU=
 github.com/hypolas/readjsonfromflatpath v0.0.3 h1:JJyPWMOCnBotYNMjT7OUtUS2kh80bPRUKOc37/WBUoM=
 github.com/hypolas/readjsonfromflatpath v0.0.3/go.mod h1:F8YpUCWtgzIc/31YS1Ao0rdnGkeo/JOTUdHbSHsSOlk=
