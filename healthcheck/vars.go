@@ -3,11 +3,12 @@ package main
 import (
 	"os"
 
-	logg "github.com/hypolas/hypolaslogger"
+	helpers "github.com/hypolas/hypolashlckhelpers"
+
 )
 
 var (
-	log                     = logg.NewLogger("")
+	log                     = helpers.NewLogger()
 	healthcheckHTTPExpected string
 	healthcheckType         = os.Getenv("HYPOLAS_HEALTHCHECK_TYPE")
 )
