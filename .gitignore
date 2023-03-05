@@ -23,3 +23,6 @@ go.work
 # Remove build linux
 *linux-amd64
 *upx-compress*
+
+# Logs
+*.log
