@@ -1,4 +1,4 @@
-# Description from DevOps for DevOps :D
+# Universal healthcheck from DevOps for DevOps :D
 
 Ce binaire permet de vérifier le status d'un service:
 
