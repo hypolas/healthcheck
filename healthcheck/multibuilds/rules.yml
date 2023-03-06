@@ -1,0 +1,7 @@
+community_modules:
+  http:
+    import: github.com/hypolas/hypolashlckhttp
+    version: v0.0.4
+  ping:
+    import: github.com/hypolas/hypolashlckping
+    version: v0.0.1
