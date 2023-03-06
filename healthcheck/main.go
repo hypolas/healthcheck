@@ -5,8 +5,7 @@ import (
 	"os"
 
 	helpers "github.com/hypolas/hypolashlckhelpers"
-	http "github.com/hypolas/hypolashlckhttp"
-
+    mhlck_ping "github.com/hypolas/hypolashlckping"
 )
 
 func main() {
@@ -14,9 +13,6 @@ func main() {
 	customID := flag.String("id", "", "Needed for run chain of healthcheck")
 	enableDebug := flag.Bool("debug", false, "Write debug variable in file (en var: HYPOLAS_LOGS_FILE)")
 	flag.Parse()
-
-	n, _ := os.Executable()
-	log.Info.Println(n)
 
 	// Config from flag to all modules
 	os.Setenv("HYPOLAS_HEALTHCHECK_ID", *customID)
@@ -27,9 +23,10 @@ func main() {
 	// Run healthcheck
 	result := helpers.Result{}
 	switch healthcheckType {
-	case "http":
-		result = http.Call()
+	case "ping":
+		result = mhlck_ping.Call()
 	}
+
 
 	log.VarDebug(result, "result")
 	log.VarDebug(healthcheckHTTPExpected, "healthcheckHttpExpected")
