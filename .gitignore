@@ -20,7 +20,7 @@
 go.work
 
 # Remove build linux
-/bin/*hpl*
+*amd64*
 
 # Logs
 *.log
