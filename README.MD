@@ -1,84 +1,63 @@
-# Universal healthcheck from DevOps for DevOps :D
+# Universal healthcheck for DevOps :D
 
-Ce binaire permet de vérifier le status d'un service:
+*The easiest healthcheck.*
 
-- API => Done
-- http => Done (Si le code de réponse HTML est attendu, cela est concidéré comme un check http)
-- tcp => Next step
+This healthcheck is a hub of different healthcheck produced by community.
 
-Cette outil peut être utilisé pour différents healthcheck. Il sort en Exit(0) si la status d'un service est valide ou Exit(1) si ce n'est pas le cas.
+| For | Type | When | Source |
+|---|---|---|---|
+| http | http | done | https://github.com/hypolas/hypolashlckhttp
+| API | http | done | https://github.com/hypolas/hypolashlckhttp
+| ICMP | ping | done | https://github.com/hypolas/hypolashlckping
+| PostgreSQL | "" | Soon | 
+| MySQL | "" | Soon | 
+| Redis | "" | Planed | 
 
-# Configuration
+____
+Or what you want, don't hesitate to ask ;)
+____
 
-Utilise les variables d'environnement:
+Type corresponde to `HYPOLAS_HEALTHCHECK_TYPE=\<type\>`
 
-- HYPOLAS_HEALTHCHECK_HTTP_EXPECTED=down
-- HYPOLAS_HEALTHCHECK_HTTP_HEADERS=firstHeader,firstValue\_\_Authorization,"Basic dGVzdDp0ZXN0MTIz"
-- HYPOLAS_HEALTHCHECK_HTTP_JSON=headers\_\_Accept-Encoding
-- HYPOLAS_HEALTHCHECK_HTTP_PROXY=http://exemple.com:8080
-- HYPOLAS_HEALTHCHECK_HTTP_RESPONSES=200,201
-- HYPOLAS_HEALTHCHECK_HTTP_TIMEOUT=5 # TimeOut in seconds
-- HYPOLAS_HEALTHCHECK_HTTP_URL=https://httpbin.org/get
-- HYPOLAS_HEALTHCHECK_TYPE=http
+All configuration by environnement variables.
 
-# Particularité => Les réponses aux API
+# Objective
 
-## Exemple
+- Include the same syntax for all care for hobbyists or engineers
+- Remove all script command complexity
+- Provide the ability to do a healthcheck without any driver installed on your operating system.
 
-Les APIs au format REST (json) sont prisent en charge. Vous pouvez allez chercher la valeur d'une réponse en profondeur.
+# Advanced functions
 
-Prenons cette réponse de l'API:
+## Dynamic variable
 
-```json
-{
-  "hostname": "myhost",
-  "services": [
-    {
-      "nom": "nginx",
-      "status": "up"
-    },
-    {
-      "nom": "httpd",
-      "status": "down"
-    }
-  ]
-}
-```
+All environment variables in the environment variable will be resolved. Exemple with *ping* healthcheck.
 
-HYPOLAS_HEALTHCHECK_HTTP_JSON est de type string flat avec comme séparateur un double "\_".
+For an host with:
+- MYENV_HOSTNAME=*`myhost`* exported
+- IP = *`10.10.10.20`*
 
-Je veux vérifier que la réponse du service "httpd" est "up". Pour cela je vais exporter 3 variables d'environnement:
+You have set bevore:
+MYENV_HOSTNAME=*`myhost`*
 
+With this settings:
 ```bash
-export HYPOLAS_HEALTHCHECK_TYPE=http
-export HYPOLAS_HEALTHCHECK_HTTP_JSON=services__1__status
-export HYPOLAS_HEALTHCHECK_HTTP_EXPECTED=up
+export XXX_PING_HOST=\$MYENV_HOSTNAME
+export XXX_PING_HOST="#CMDSTART# hostname -i #CMDEND#"
 ```
 
-Le service index 1 étant `httpd`, le résultat sera un Exit(1).
+| Env var | Your value | Resolve value | Resolved by env | Resolved by CMD |
+|---|---|---|---| --- |
+| XXX_PING_HOST | \\$MYENV_HOSTNAME | *`myhost`* | - | X |
+| XXX_PING_HOST | `#CMDSTART#` hostname -i `#CMDEND#` | *`10.10.10.20`* | X | - |
 
-# Fonction avancée
 
-## Variables d'environnement dynamiques
-
-Vous pouvez passer des commandes dans vos variables d'environnement. Par exemple dans Docker, un check sur un hôtes statique n'a que peu de sens. L'adresse IP et le hostname de votre container Docker pouvant changer régulièrement.
-
-Cette problématique est résolue ici en donnant la possibilité d'appeler des commandes externes. Par exemple, l'IP de l'hôte (ou du Docker) est très utile pour un healthcheck locale. La commande `hostname -i` permet de récupérer l'IP alors que les variables d'environnements sont statiques.
-
-Toutes les valeurs entre les balises `#CMDSTART#` et `#CMDEND#` seront lancées dans le shell de votre système. Le retour de votre commande dans le terminal mettra à jour votre variable d'environnement. Exemple:
-
-- export HYPOLAS_HEALTHCHECK_HTTP_URL=http://#CMDSTART# hostname -i #CMDEND#:8082/ping
-
-Engendra l'execution par votre système de `hostname -i`. Votre terminal lui répondra par exemple 10.10.10.20. La variable d'environnement sera au final:
-
-- export HYPOLAS_HEALTHCHECK_HTTP_URL=http://10.10.10.20:8082/ping
-
-## Exemple avec Docker (Traefik)
+### Exemple for Docker (Traefik)
 
 ```Dockerfile
 FROM traefik:v2.9.8
 
-ADD https://github.com/hypolas/healthcheck/releases/download/v0.2.0/healthcheck_hpl-linux-amd64 /usr/bin/healthcheck
+ADD https://github.com/hypolas/healthcheck/releases/download/v0.4.1/healthcheck_hpl-linux-amd64 /usr/bin/healthcheck
 RUN chmod +x /usr/bin/healthcheck
 
 ENV HYPOLAS_HEALTHCHECK_TYPE=http
@@ -88,12 +67,48 @@ ENV HYPOLAS_HEALTHCHECK_HTTP_URL="http://#CMDSTART# hostname -i #CMDEND#:8082/pi
 HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck
 ```
 
-# Debug
+## Multi run stack
 
-Si vous constatez des dysfonctionnements, vous pouvez lancer en mode `debug`.
+I n particulaire case you can need to check multi same service. Exemple with ping.
 
-```bash
-healthcheck -d
+For exemple I have a service on `hostA`. This service need à ping response to:
+
+  1. `hostB` and
+  2. `hostC`
+
+
+You first config for `hostB` (*(not real env var for ping healthcheck)*:
+ ```bash
+ export XXX_TYPE=`ping`
+ export XXX_PING_HOST=`hostB`
+ ```
+
+For the second host we specify an **`id`** in latest command line
+ ```bash
+ export XXX_MYID_TYPE=`ping`
+ export XXX_MYID_PING_HOST=`hostB`
+ ```
+
+ This call healthcheck with this command:
+ ```bash
+ xxx && healthcheck && healthcheck -id MYID
+ ```
+
+> Pay attention to `-id` and changes in environment variables `MYID`
+
+So une Docker, We have for exemple *(not real env var for ping healthcheck)*:
+
+```Dockerfile
+FROM traefik:v2.9.8
+
+ADD https://github.com/hypolas/healthcheck/releases/download/v0.4.1/healthcheck_hpl-linux-amd64 /usr/bin/healthcheck
+RUN chmod +x /usr/bin/healthcheck
+
+ENV XXX_TYPE=ping
+ENV XXX_PING_HOST=`hostB
+
+ENV XXX_MYID_TYPE=ping
+ENV XXX_MYID_PING_HOST=hostB
+
+HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck && healthcheck -id MYID
 ```
-
-Si vous me faites une issue, ce log me sera grandement utile ;-).
