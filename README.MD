@@ -67,9 +67,9 @@ ENV HYPOLAS_HEALTHCHECK_HTTP_URL="http://#CMDSTART# hostname -i #CMDEND#:8082/pi
 HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck
 ```
 
-## Multi run stack
+## Multi chain run
 
-I n particulaire case you can need to check multi same service. Exemple with ping.
+In a particulaire case you can need to check multi same service. Exemple with ping.
 
 For exemple I have a service on `hostA`. This service need à ping response to:
 
@@ -77,16 +77,16 @@ For exemple I have a service on `hostA`. This service need à ping response to:
   2. `hostC`
 
 
-You first config for `hostB` (*(not real env var for ping healthcheck)*:
+For the first host `hostB` *(not real env var for ping healthcheck)*:
  ```bash
- export XXX_TYPE=`ping`
- export XXX_PING_HOST=`hostB`
+ export XXX_TYPE=ping
+ export XXX_PING_HOST=hostB
  ```
 
-For the second host we specify an **`id`** in latest command line
+For the second host, we specify an **`id`** in latest command line
  ```bash
- export XXX_MYID_TYPE=`ping`
- export XXX_MYID_PING_HOST=`hostB`
+ export XXX_MYID_TYPE=ping
+ export XXX_MYID_PING_HOST=hostC
  ```
 
  This call healthcheck with this command:
@@ -105,10 +105,10 @@ ADD https://github.com/hypolas/healthcheck/releases/download/v0.4.1/healthcheck_
 RUN chmod +x /usr/bin/healthcheck
 
 ENV XXX_TYPE=ping
-ENV XXX_PING_HOST=`hostB
+ENV XXX_PING_HOST=hostB
 
 ENV XXX_MYID_TYPE=ping
-ENV XXX_MYID_PING_HOST=hostB
+ENV XXX_MYID_PING_HOST=hostC
 
 HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck && healthcheck -id MYID
 ```
