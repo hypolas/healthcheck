@@ -14,7 +14,7 @@ This healthcheck is a hub of different healthcheck produced by community.
 | Redis | "" | Planed | 
 
 ____
-Or what you want ! just ask it ;)
+Or what you want, don't hesitate to ask ;)
 ____
 
 Type corresponde to `HYPOLAS_HEALTHCHECK_TYPE=\<type\>`
@@ -23,29 +23,32 @@ All configuration by environnement variables.
 
 # Objective
 
-- Include same synctax for all healcheck for amators or ingeniors
-- Remove all complexity of script command
-- Give possibility to do healthcheck without any driver installed on your OS.
+- Include the same syntax for all care for hobbyists or engineers
+- Remove all script command complexity
+- Provide the ability to do a healthcheck without any driver installed on your operating system.
 
 # Advanced functions
 
 ## Dynamic variable
 
-All environnement variable in environment varible will be resolve. Exemple with *ping* healthcheck.
+All environment variables in the environment variable will be resolved. Exemple with *ping* healthcheck.
 
-For host with:
-- hostmane = *`myhost`*
+For an host with:
+- MYENV_HOSTNAME=*`myhost`* exported
 - IP = *`10.10.10.20`*
 
-So with setting:
+You have set bevore:
+MYENV_HOSTNAME=*`myhost`*
+
+With this settings:
 ```bash
-export XXX_PING_HOST=\$hostname
+export XXX_PING_HOST=\$MYENV_HOSTNAME
 export XXX_PING_HOST="#CMDSTART# hostname -i #CMDEND#"
 ```
 
 | Env var | Your value | Resolve value | Resolved by env | Resolved by CMD |
 |---|---|---|---| --- |
-| XXX_PING_HOST | \\$hostname | *`myhost`* | - | X |
+| XXX_PING_HOST | \\$MYENV_HOSTNAME | *`myhost`* | - | X |
 | XXX_PING_HOST | `#CMDSTART#` hostname -i `#CMDEND#` | *`10.10.10.20`* | X | - |
 
 
@@ -74,14 +77,13 @@ For exemple I have a service on `hostA`. This service need à ping response to:
   2. `hostC`
 
 
-
-You first config for `hostB`
+You first config for `hostB` (*(not real env var for ping healthcheck)*:
  ```bash
  export XXX_TYPE=`ping`
  export XXX_PING_HOST=`hostB`
  ```
 
-For second host we spécifie an **`id`** in latest command line
+For the second host we specify an **`id`** in latest command line
  ```bash
  export XXX_MYID_TYPE=`ping`
  export XXX_MYID_PING_HOST=`hostB`
@@ -92,6 +94,21 @@ For second host we spécifie an **`id`** in latest command line
  xxx && healthcheck && healthcheck -id MYID
  ```
 
-> :warning Pay attention to `-id` and changes in environment variables `MYID`
+> Pay attention to `-id` and changes in environment variables `MYID`
 
+So une Docker, We have for exemple *(not real env var for ping healthcheck)*:
 
+```Dockerfile
+FROM traefik:v2.9.8
+
+ADD https://github.com/hypolas/healthcheck/releases/download/v0.4.1/healthcheck_hpl-linux-amd64 /usr/bin/healthcheck
+RUN chmod +x /usr/bin/healthcheck
+
+ENV XXX_TYPE=ping
+ENV XXX_PING_HOST=`hostB
+
+ENV XXX_MYID_TYPE=ping
+ENV XXX_MYID_PING_HOST=hostB
+
+HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck && healthcheck -id MYID
+```
