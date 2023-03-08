@@ -71,7 +71,7 @@ HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healt
 
 Using this `healthcheck` as `waiter`
 ____________________________________________
-## Multi chain run
+## Use healthcheck for wait
 
 In a particulaire case you can need `wait` before start service. A databbase for exemple.
 
