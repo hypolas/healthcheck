@@ -1,4 +1,4 @@
-# Universal healthcheck for DevOps :D
+# Universal `healthcheck` and `WAIT` for DevOps :D
 
 *The easiest healthcheck.*
 
@@ -51,7 +51,6 @@ export XXX_PING_HOST="#CMDSTART# hostname -i #CMDEND#"
 | XXX_PING_HOST | \\$MYENV_HOSTNAME | *`myhost`* | - | X |
 | XXX_PING_HOST | `#CMDSTART#` hostname -i `#CMDEND#` | *`10.10.10.20`* | X | - |
 
-
 ### Exemple for Docker (Traefik)
 
 ```Dockerfile
@@ -67,48 +66,57 @@ ENV HYPOLAS_HEALTHCHECK_HTTP_URL="http://#CMDSTART# hostname -i #CMDEND#:8082/pi
 HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck
 ```
 
-## Multi run stack
+# Not again ready but in developpement =>
 
-I n particulaire case you can need to check multi same service. Exemple with ping.
+Using this `healthcheck` as `waiter`
+____________________________________________
+## Use healthcheck for wait
 
-For exemple I have a service on `hostA`. This service need à ping response to:
+In a particulaire case you can need `wait` before start service. A databbase for exemple.
 
-  1. `hostB` and
-  2. `hostC`
+For exemple I have a service on `hostA`. This service need access to two database:
+
+  1. `BDD-A` and
+  2. `BDD-B`
 
 
-You first config for `hostB` (*(not real env var for ping healthcheck)*:
+For the first database `BDD-A` *(not real env var for ping healthcheck)*:
  ```bash
- export XXX_TYPE=`ping`
- export XXX_PING_HOST=`hostB`
+ export XXX_TYPE=mysql
+ export XXX_WAIT=enable
+ export XXX_MYSQL_HOST=BDD-A
  ```
 
-For the second host we specify an **`id`** in latest command line
+For the second database, we specify an **`id`** in latest command line
  ```bash
- export XXX_MYID_TYPE=`ping`
- export XXX_MYID_PING_HOST=`hostB`
+export XXX_MYID_TYPE=mysql
+export XXX_MYID_WAIT=enable
+export XXX_MYID_MYSQL_HOST=BDD-B
  ```
 
  This call healthcheck with this command:
  ```bash
- xxx && healthcheck && healthcheck -id MYID
+ xxx && healthcheck && healthcheck -id MYID && serviceStart.sh
  ```
 
 > Pay attention to `-id` and changes in environment variables `MYID`
 
-So une Docker, We have for exemple *(not real env var for ping healthcheck)*:
+In this case, until the twice databases not responding, the services will wait.
 
-```Dockerfile
-FROM traefik:v2.9.8
+Exemple with docker-compose.yml *(not real env var for MySQL healthcheck)*:
 
-ADD https://github.com/hypolas/healthcheck/releases/download/v0.4.1/healthcheck_hpl-linux-amd64 /usr/bin/healthcheck
-RUN chmod +x /usr/bin/healthcheck
+```yaml
+version: '3'
 
-ENV XXX_TYPE=ping
-ENV XXX_PING_HOST=`hostB
-
-ENV XXX_MYID_TYPE=ping
-ENV XXX_MYID_PING_HOST=hostB
-
-HEALTHCHECK --start-period=10s --interval=10s --timeout=5s --retries=3 CMD healthcheck && healthcheck -id MYID
+services:
+  web:
+    image: myimage:1.0.0
+    entrypoint: healthcheck && healthcheck -id MYID && serviceStart.sh
+    environment:
+      XXX_TYPE: mysql
+      XXX_WAIT: enable
+      XXX_MYSQL_HOST: BDD-A
+      XXX_MYID_TYPE: mysql
+      XXX_MYID_WAIT: enable
+      XXX_MYID_MYSQL_HOST: BDD-B
 ```
