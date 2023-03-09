@@ -51,7 +51,6 @@ export XXX_PING_HOST="#CMDSTART# hostname -i #CMDEND#"
 | XXX_PING_HOST | \\$MYENV_HOSTNAME | *`myhost`* | - | X |
 | XXX_PING_HOST | `#CMDSTART#` hostname -i `#CMDEND#` | *`10.10.10.20`* | X | - |
 
-
 ### Exemple for Docker (Traefik)
 
 ```Dockerfile
@@ -120,5 +119,4 @@ services:
       XXX_MYID_TYPE: mysql
       XXX_MYID_WAIT: enable
       XXX_MYID_MYSQL_HOST: BDD-B
-
 ```
